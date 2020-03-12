@@ -1,0 +1,22 @@
+{
+  "name": "shubham",
+  "version": "1.0.0",
+  "description": "Learning Purpose",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shubham-backend/learn-basic-node-js.git"
+  },
+  "author": "Shubham-backend",
+  "license": "N/A",
+  "bugs": {
+    "url": "https://github.com/shubham-backend/learn-basic-node-js.git/issues"
+  },
+  "homepage": "https://github.com/shubham-backend/learn-basic-node-js#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
