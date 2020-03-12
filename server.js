@@ -1,9 +1,22 @@
 var http = require('http');
-
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
-var routes = require("./routes/v1/api.js");
 
+// for parsing application/json
+app.use(bodyParser.json());
+// for parsing application/xwww-
+app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(express.static('public'));
+
+// for parsing application/json
+var multer = require('multer');
+var upload = multer();
+
+// for parsing multipart/form-data
+app.use(upload.array()); 
+
+var routes = require("./routes/v1/api.js")(app);
 
 app.listen(3000, '127.0.0.1');
 console.log('Server running at http://127.0.0.1:3000/');
