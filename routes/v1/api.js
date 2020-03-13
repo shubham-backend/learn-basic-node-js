@@ -1,22 +1,13 @@
-//Reference - https://www.npmjs.com/package/dotenv
-require('dotenv').config()
+//const router = require('express').Router();
 
-var mysql = require('mysql'); 
-//start mysql connection
-var connection = mysql.createConnection({
-    host     : process.env.DB_HOST, //mysql database host name
-    user     : process.env.DB_USERNAME, //mysql database user name
-    password : process.env.DB_PASSWORD, //mysql database password
-    database : process.env.DB_DATABASE //mysql database name
-  });
-//console.log(process.env.DB_DATABASE);
-connection.connect(function(err) {
-	if (err) throw err
-	console.log('You are now connected with mysql database...')
-})
-//end mysql connection
+var express = require('express');
+var router = express.Router();
 
-const router = require('express').Router();
+//var ApiController = require('../../src/controllers/v1/api.controller.js');
+
+//router.get('/first-api-using-controller', ApiController.getUsers)
+
+var connection = require('../../mysql.js');
 
 var appRouter = function(app) {
     
@@ -64,7 +55,7 @@ var appRouter = function(app) {
         
         var params  = req.body;
         var today = new Date();
-        var users={
+        var users = {
 			"name":req.body.name,
 			"email":req.body.email,
 			"message":req.body.message,
@@ -92,3 +83,4 @@ var appRouter = function(app) {
 }
 
 module.exports = appRouter;
+//module.exports = router;

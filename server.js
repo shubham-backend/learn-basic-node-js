@@ -18,6 +18,9 @@ app.use(upload.array());
 
 var routes = require("./routes/v1/api.js")(app);
 
+//using JOI Validation of Login and signup API
+var loginRoutes = require("./routes/v1/login.js")(app);
+
 app.listen(3000, '127.0.0.1');
 console.log('Server running at http://127.0.0.1:3000/');
 
