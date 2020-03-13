@@ -6,3 +6,4 @@ List of module used when project starting to till commit
 3) dotenv (npm install dotenv)
 4) body-parser (npm install body-parser)
 5) multer (npm install --save body-parser multer)
+6) JOI (npm install joi) //For Api Schema Validation
