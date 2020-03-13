@@ -10,14 +10,13 @@
 
 //MySql Connection
 var connection = require('../../../mysql.js')
-console.log(connection);
 
-module.exports={
 
-	async getUsers(req,res,next)
-	{
-		console.log('hello');
+exports.getUsers = (req,res,next) => {
+		connection.query('select * from users', function (error, results, fields) {
+        if (error) throw error;
+        return res.end(results);
+        });
 
 	}
-}
 

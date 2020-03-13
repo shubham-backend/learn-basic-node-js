@@ -1,7 +1,11 @@
 //Reference - https://www.npmjs.com/package/dotenv
-require('dotenv').config()
-
+require('dotenv').config('')
 var mysql = require('mysql'); 
+
+//For Development Env Access
+//require('dotenv').config({ path: './.env.development' })
+//console.log(process.env.TestDevEnv);
+
 //start mysql connection
 var connection = mysql.createConnection({
     host     : process.env.DB_HOST, //mysql database host name
@@ -9,7 +13,6 @@ var connection = mysql.createConnection({
     password : process.env.DB_PASSWORD, //mysql database password
     database : process.env.DB_DATABASE //mysql database name
   });
-//console.log(process.env.DB_DATABASE);
 connection.connect(function(err) {
 	if (err) throw err
 	console.log('You are now connected with mysql database...')

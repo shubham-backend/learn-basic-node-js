@@ -1,5 +1,8 @@
 //MySql Connection
 var connection = require('../../mysql.js');
+var resMiddleware = require('../../src/middlewares/response.middleware.js');
+
+//https://www.npmjs.com/package/joi
 const Joi = require('joi');
 
 var loginRouter = function(app) {
@@ -112,7 +115,7 @@ var loginRouter = function(app) {
   
             } 
             else {
-            	console.log(data.data);
+            	console.log(data);
             	connection.query('SELECT * FROM app_users WHERE email = ?',[data.email], function (error, results, fields) {
             		
             		if (error) {
