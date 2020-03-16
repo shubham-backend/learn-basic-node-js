@@ -16,10 +16,12 @@ var upload = multer();
 // for parsing multipart/form-data
 app.use(upload.array()); 
 
-var routes = require("./routes/v1/api.js")(app);
+var routes = require("./routes/v1/api.js");
+app.use(routes)
 
 //using JOI Validation of Login and signup API
-var loginRoutes = require("./routes/v1/login.js")(app);
+var loginRoutes = require("./routes/v1/login.js");
+app.use(loginRoutes)
 
 //.env constant access
 app.listen(process.env.PORT, process.env.HOST);

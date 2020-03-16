@@ -1,13 +1,13 @@
 "use strict";
-console.log('here');
+console.log('Response Middleware Here......');
 
 exports.ErrorHandler = function (err, req, res, next) {
     if (err) {
         return res.status(400).send({
             success: false,
             code: 400,
-            key: err.joi.details[0].context.key,
-            message: err.joi.details[0].message.replace(/"/g, '')
+            key: err.details[0].context.key,
+            message: err.details[0].message.replace(/"/g, '')
         });
     }
     else if (err.expose) {
@@ -41,5 +41,13 @@ exports.sendResponse = (res, msg, result) => {
         code: 200,
         message: msg,
         result
+    });
+};
+
+exports.sendError = (res, msg) => {
+    return res.status(400).json({
+        success: false,
+        code: 400,
+        message: msg,
     });
 };

@@ -1,10 +1,22 @@
 //MySql Connection
 var connection = require('../../mysql.js');
+//Middleware Add
 var resMiddleware = require('../../src/middlewares/response.middleware.js');
-
 //https://www.npmjs.com/package/joi
 const Joi = require('joi');
+//API Controller Used for data travel
+var ApiController = require('../../src/controllers/v1/api.controller.js');
 
+//Router Defined
+var express = require('express');
+var router = express.Router();
+
+//Login Api
+router.post('/api/v1/login', ApiController.login)
+//Register Api
+router.post('/api/v1/register', ApiController.register)
+
+//Old Method
 var loginRouter = function(app) {
 	
 	//Demo Api
@@ -13,7 +25,7 @@ var loginRouter = function(app) {
     });
 
     //Register Api
-    app.post("/api/v1/register", (req, res, next) => {
+    app.post("/register", (req, res, next) => {
 
     	const data = req.body;
 
@@ -36,13 +48,7 @@ var loginRouter = function(app) {
 	    Joi.validate(data, schema, (err, value) => {
     
             if (err) {
-                res.status(422).json({
-                    success: false,
-			        code: 400,
-			        key: err.details[0].context.key,
-			        message: err.details[0].message.replace(/"/g, '')
-                });
-  
+            	resMiddleware.ErrorHandler(err,req,res,next);
             } 
             else 
             {
@@ -56,31 +62,18 @@ var loginRouter = function(app) {
         		};
         		connection.query('SELECT * FROM app_users WHERE email = ?',[data.email], function (error, results, fields) {
         			if(results.length >0){
-        					res.json({
-								success: false,
-								code:400,
-								message:"Email already exists."
-							});
+        				resMiddleware.sendError(res,"Email already exists.");
         			}else{
 
         				connection.query('INSERT INTO app_users SET ?', registerData, function (error, results, fields) {
         		
 			        		if (error) {
-								console.log("error ocurred",error);
-								res.json({
-								 success: false,
-								 code:400,
-								 message:"Something went wrong."
-								});
+								//console.log("error ocurred",error);
+			        			resMiddleware.sendError(res,"Something went wrong.");
 							}
 							else{
 								const id = results.insertId;
-				                res.json({
-				                    status: true,
-				                    code: 200,
-				                    message: 'User created successfully',
-				                    data: Object.assign({id}, value)
-			            		});
+								resMiddleware.sendResponse(res,"User created successfully",Object.assign({id}, value));	
 			            	}
 				        });		
         			}
@@ -90,7 +83,7 @@ var loginRouter = function(app) {
     });
 
     //Login Api
-    app.post("/api/v1/login", (req, res, next) => {
+    app.post("/login", (req, res, next) => {
 
     	const data = req.body;
 
@@ -106,29 +99,23 @@ var loginRouter = function(app) {
 	    Joi.validate(data, schema, (err, value) => {
 
 	    	if (err) {
-                res.status(422).json({
-                    success: false,
-			        code: 400,
-			        key: err.details[0].context.key,
-			        message: err.details[0].message.replace(/"/g, '')
-                });
-  
+                resMiddleware.ErrorHandler(err,req,res,next);
             } 
             else {
             	console.log(data);
             	connection.query('SELECT * FROM app_users WHERE email = ?',[data.email], function (error, results, fields) {
             		
             		if (error) {
-						console.log("error ocurred",error);
-						res.json({
-						 success: false,
-						 code:400,
-						 message:"Something went wrong."
-						});
+						//console.log("error ocurred",error);
+						resMiddleware.sendError(res,"Something went wrong.");
 					}
 					else{
 						if(results.length >0){
 							if(results[0].password == data.password){
+								console.log('here');
+								console.log(results);
+								console.log(results['RowDataPacket']);
+								console.log(results.RowDataPacket);
 								const id = 1;//results.insertId;
 				                res.json({
 				                    status: true,
@@ -138,19 +125,11 @@ var loginRouter = function(app) {
 		                		});
                 			}
                 			else{
-			                 	res.json({
-				                  	success: false,
-				                    code:400,
-				                    message:"Email or password does not match"
-			                    });
+                				resMiddleware.sendError(res,"Email or password does not match.");
 			                }
 			            }
 			            else{
-		            		res.json({
-			                  	success: false,
-			                    code:400,
-			                    message:"Email does not exists."
-		                    });
+			            	resMiddleware.sendError(res,"Email does not exists.");
 			            }
 			        }    
                 });
@@ -159,5 +138,6 @@ var loginRouter = function(app) {
 
     });
 }
+//module.exports = loginRouter;
 
-module.exports = loginRouter;
+module.exports = router;

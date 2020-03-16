@@ -3,14 +3,19 @@
 var express = require('express');
 var router = express.Router();
 
-//var ApiController = require('../../src/controllers/v1/api.controller.js');
+var ApiController = require('../../src/controllers/v1/api.controller.js');
 
-//router.get('/first-api-using-controller', ApiController.getUsers)
+router.get('/first-api-using-controller', ApiController.getUsers)
 
 var connection = require('../../mysql.js');
 
 var appRouter = function(app) {
     
+    //Demo Api
+    app.get("/", function(req, res) {
+        res.send("Welcome to Node Js");
+    });
+
     //Demo Api
     app.get("/api/demo-api", function(req, res) {
         res.send("Hello World");
@@ -82,5 +87,5 @@ var appRouter = function(app) {
     });
 }
 
-module.exports = appRouter;
-//module.exports = router;
+//module.exports = appRouter;
+module.exports = router;
