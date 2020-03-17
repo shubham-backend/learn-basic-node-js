@@ -2,6 +2,7 @@
 console.log('Response Middleware Work Here......');
 
 exports.ErrorHandler = function (err, req, res, next) {
+    console.log('a');
     if (err) {
         return res.status(400).send({
             success: false,

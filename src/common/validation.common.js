@@ -1,6 +1,8 @@
 "use strict";
 console.log('Validation Class work here..')
-const Joi = require('joi');
+// const Joi = require('joi');
+const { Joi } = require('celebrate');
+
 exports.VALIDATION = {
 	LOGIN: {
         EMAIL: Joi.string().email().required().trim().max(40),

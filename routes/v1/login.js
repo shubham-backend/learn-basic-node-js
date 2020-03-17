@@ -3,20 +3,37 @@ var connection = require('../../mysql.js');
 //Middleware Add
 var resMiddleware = require('../../src/middlewares/response.middleware.js');
 //https://www.npmjs.com/package/joi
-const Joi = require('joi');
+//const Joi = require('joi');
+
 //API Controller Used for data travel
 var ApiController = require('../../src/controllers/v1/api.controller.js');
+//Common Validation
+var commonValidation = require('../../src/common/validation.common.js');
 
+//const Joi = require('@hapi/joi');
+//Celebrate Routes
+const { celebrate, Joi, errors, Segments } = require('celebrate');
 //Router Defined
 var express = require('express');
 var router = express.Router();
 
-//Login Api
-router.post('/api/v1/login', ApiController.login)
+
+
+//Login Standard API 
+router.post('/api/v1/login', celebrate({
+	body: {
+	    email: commonValidation.VALIDATION.LOGIN.EMAIL,
+    	password: commonValidation.VALIDATION.LOGIN.PASSWORD,
+	},
+  }), (req, res) => {
+  	ApiController.login(req, res);
+});
+
+
 //Register Api
 router.post('/api/v1/register', ApiController.register)
 
-//Old Method
+//Old Method for Beginner developer for practics only
 var loginRouter = function(app) {
 	
 	//Demo Api

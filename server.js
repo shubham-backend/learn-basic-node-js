@@ -19,9 +19,14 @@ app.use(upload.array());
 var routes = require("./routes/v1/api.js");
 app.use(routes)
 
+//var resMiddleware = require('./src/middlewares/response.middleware.js');
+const { errors } = require('celebrate');
+app.use(errors());
+
 //using JOI Validation of Login and signup API
 var loginRoutes = require("./routes/v1/login.js");
 app.use(loginRoutes)
+
 
 //.env constant access
 app.listen(process.env.PORT, process.env.HOST);

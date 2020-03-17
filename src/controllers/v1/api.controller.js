@@ -1,4 +1,4 @@
-
+'use strict';
 //MySql Connection
 var connection = require('../../../mysql.js')
 //JOI Connection
@@ -7,6 +7,23 @@ const Joi = require('joi');
 var resMiddleware = require('../../middlewares/response.middleware.js');
 //Common Middleware Used
 var commonValidation = require('../../common/validation.common.js');
+//Model Used
+var userModel = require('../../models/v1/app.model.js');
+
+//Well Standard API using Controller Model and Routes and Common Validation
+exports.login = function(req, res) {
+	const data = req.body;
+	userModel.login(data, function(err, user) {
+		
+	if(err == null && user !==null && user.hasOwnProperty('id'))
+	{
+		resMiddleware.sendResponse(res,"User Login Successfully.",user);	
+	}
+	else{
+		resMiddleware.sendError(res, user);
+	}
+	});
+};
 
 exports.getUsers = (req,res,next) => {
 	connection.query('select * from users', function (error, results, fields) {
@@ -16,7 +33,7 @@ exports.getUsers = (req,res,next) => {
 }
 
 //Login API
-exports.login = (req, res, next) => {
+exports.login1 = (req, res, next) => {
 
 	const data = req.body;
 
@@ -45,12 +62,7 @@ exports.login = (req, res, next) => {
 					if(results.length >0){
 						if(results[0].password == data.password){
 							const id = results[0].id;
-			                res.json({
-			                    status: true,
-			                    code: 200,
-			                    message: 'Login successfully',
-			                    data: Object.assign({id}, value)
-	                		});
+							resMiddleware.sendResponse(res,"Login successfully",Object.assign({id}, value));	
             			}
             			else{
             				resMiddleware.sendError(res,"Email or password does not match.");
