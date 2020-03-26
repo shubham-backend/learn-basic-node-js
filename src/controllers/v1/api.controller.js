@@ -2,13 +2,149 @@
 //MySql Connection
 var connection = require('../../../mysql.js')
 //JOI Connection
-const Joi = require('joi');
+var Joi = require('joi');
 //Response middleware Used
 var resMiddleware = require('../../middlewares/response.middleware.js');
 //Common Middleware Used
 var commonValidation = require('../../common/validation.common.js');
+
 //Model Used
-var userModel = require('../../models/v1/app.model.js');
+// var UserModel = require('../../models/v1/app.model.js');
+// var user = UserModel;
+// console.log(user);
+
+//Using Sequilize
+//var User = UserModel.login;
+// console.log(User);
+// const Op = userModel.Sequelize;
+
+const db = require('../../database/sequelize-mysql.db.js');
+const User = db.users;
+const Op = db.Sequelize.Op;
+
+//Reference- https://bezkoder.com/node-js-express-sequelize-mysql/
+
+//Delete once User by user-id
+exports.delete = (req, res) => {
+	const id = req.params.id;
+  
+	User.destroy({
+	  where: { id: id }
+	})
+	  .then(num => {
+		if (num == 1) {
+			resMiddleware.sendResponse(res,"User deleted successfully",id);
+		} else {
+			resMiddleware.sendError(res, `Cannot delete User with id=${id}. Maybe User was not found!`);
+		}
+	  })
+	  .catch(err => {
+		resMiddleware.sendError(res, "Could not delete User with id=" + id);
+	  });
+};
+//User Details Find by user-id
+exports.findOne = (req, res) => {
+	const id = req.params.id;
+
+	User.findByPk(id)
+	 .then(data => {
+		if(data == null){
+		res.status(500).send({
+			message: "User does not exist with id=" + id
+			});
+		}else{
+		res.send(data);
+		}
+	})
+	.catch(err => {
+	res.status(500).send({
+		message: "Error" + err
+	});
+	});
+};
+//User profile update API
+exports.update = (req, res) => {	
+	const id = req.params.id;
+  
+	User.update(req.body, {
+	  where: { id: id }
+	})
+	  .then(num => {
+		if (num == 1) {
+			resMiddleware.sendResponse(res,"Profile updated successfully",id);	
+		} else {
+			resMiddleware.sendError(res, `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`);
+		}
+	  })
+	  .catch(err => {
+		//resMiddleware.sendError(res, err);
+		resMiddleware.sendError(res, "Error updating User with id=" + id);
+	  });
+};
+//User List Api
+exports.findAll = (req, res) => {
+  //const name = req.query.name;
+  //var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+
+  //User.findAll({ where: condition })
+  User.findAll({ where:{} })
+	.then(data => {
+	res.send(data);
+	})
+	.catch(err => {
+	res.status(500).send({
+		message:
+		err.message || "Some error occurred while retrieving users."
+	});
+	});
+};
+//Register APi
+exports.create = (req, res) => {
+	// Create a User
+	var data = req.body;
+	var user = {
+		"name":data.name,
+		"email":data.email,
+		"phone":data.phone,
+		"password":data.password,
+	};
+	console.log(user);
+	// Save User in the database
+	User.create(user)
+	  .then(data => {
+		resMiddleware.sendResponse(res,"User created successfully",data);	
+		//res.send(data);
+	  })
+	  .catch(err => {
+		res.status(500).send({
+		  message:
+			err.message || "Some error occurred while creating the User."
+		});
+	  });
+};
+
+
+exports.login_rnd = (req, res) => {
+  var param = req.body;
+  console.log(param);
+	User.findAll({  //Error in this line
+		where: {
+			email: param.email
+		}
+	}).than(user => {
+		if(param.password == user.password){
+			resMiddleware.sendResponse(res,"User Login Successfully.",user);	
+		}else{
+			resMiddleware.sendError(res, "User does not exist");
+		}
+	}).catch(err => {
+		resMiddleware.sendError(res, err);
+	});
+};
+
+
+//var userModel = require('../../models/v1/app.model.js');   //Uncomment line when login api hit
+//Important Line - Before the login api hit -> go to app.model,js and uncomment practics1 and comment practics3
 
 //Well Standard API using Controller Model and Routes and Common Validation
 exports.login = function(req, res) {
@@ -30,7 +166,7 @@ exports.getUsers = (req,res,next) => {
     	if (error) throw error;
     	res.send(results)
     });
-}
+};
 
 //Login API
 exports.login1 = (req, res, next) => {
@@ -75,7 +211,7 @@ exports.login1 = (req, res, next) => {
             });
         }
     });
-}
+};
 
 //Register API
 exports.register = (req, res, next) => {
@@ -133,5 +269,4 @@ exports.register = (req, res, next) => {
         		});
             }
 	    });
-}
-
+};

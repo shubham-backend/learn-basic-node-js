@@ -15,9 +15,28 @@ var commonValidation = require('../../src/common/validation.common.js');
 const { celebrate, Joi, errors, Segments } = require('celebrate');
 //Router Defined
 var express = require('express');
-var router = express.Router();
+var router = express.Router(); //valuable entaintement
 
-
+//Api Using Sequilize MySql DB WITH NODE AND EXPRESS JS WITHOUT USED TYPE SCRIPT
+//Fetch data by using user_id
+router.get("/api/v1/:id", ApiController.findOne);
+//Update profile of user by user-id
+router.put("/api/v1/user/profile/:id", ApiController.update);
+//Delete User Profile by user-id
+router.delete("/api/v1/user/delete/:id", ApiController.delete);
+//Fetch all user api
+router.get("/api/v1/users/list", ApiController.findAll);
+//Register Standard API 
+router.post('/api/v1/register', celebrate({
+	body: {
+		name: commonValidation.VALIDATION.REGISTER.NAME,
+		email: commonValidation.VALIDATION.REGISTER.EMAIL,
+		phone: commonValidation.VALIDATION.REGISTER.PHONE,
+    	password: commonValidation.VALIDATION.REGISTER.PASSWORD,
+	},
+  }), (req, res) => {
+  	ApiController.create(req, res);
+});
 
 //Login Standard API 
 router.post('/api/v1/login', celebrate({
@@ -28,7 +47,6 @@ router.post('/api/v1/login', celebrate({
   }), (req, res) => {
   	ApiController.login(req, res);
 });
-
 
 //Register Api
 router.post('/api/v1/register', ApiController.register)
@@ -154,7 +172,7 @@ var loginRouter = function(app) {
 	    });
 
     });
-}
+};
 //module.exports = loginRouter;
 
 module.exports = router;

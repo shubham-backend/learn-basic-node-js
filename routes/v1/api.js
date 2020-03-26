@@ -40,7 +40,7 @@ var appRouter = function(app) {
     //Api to update record into mysql database
     app.put('/api/update-user', function (req, res) {
     	console.log(req.body);
-        connection.query('UPDATE `users` SET `name`=?,`email`=?,`mobile`=?,`password`=? where `Id`=?', [req.body.name,req.body.email, req.body.mobile, req.body.password, req.body.id], function (error, results, fields) {
+        connection.query('UPDATE `users` SET `name`=?,`email`=?,`phone`=?,`password`=? where `Id`=?', [req.body.name,req.body.email, req.body.phone, req.body.password, req.body.id], function (error, results, fields) {
         if (error) throw error;
         res.end(JSON.stringify(results));
         });
