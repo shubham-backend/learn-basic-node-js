@@ -89,7 +89,8 @@ exports.findAll = (req, res) => {
   //User.findAll({ where: condition })
   User.findAll({ where:{} })
 	.then(data => {
-	res.send(data);
+		resMiddleware.sendResponse(res,"User deleted successfully",data);
+	//res.send(data);
 	})
 	.catch(err => {
 	res.status(500).send({
@@ -142,7 +143,7 @@ exports.login_rnd = (req, res) => {
 	});
 };
 
-
+// ######################################################Important Notice##########################################################################
 //var userModel = require('../../models/v1/app.model.js');   //Uncomment line when login api hit
 //Important Line - Before the login api hit -> go to app.model,js and uncomment practics1 and comment practics3
 

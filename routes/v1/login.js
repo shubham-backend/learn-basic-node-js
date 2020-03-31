@@ -18,37 +18,298 @@ var express = require('express');
 var router = express.Router(); //valuable entaintement
 
 //Api Using Sequilize MySql DB WITH NODE AND EXPRESS JS WITHOUT USED TYPE SCRIPT
-//Fetch data by using user_id
-router.get("/api/v1/:id", ApiController.findOne);
+//Swagger Reference - https://mherman.org/blog/swagger-and-nodejs/
 //Update profile of user by user-id
 router.put("/api/v1/user/profile/:id", ApiController.update);
-//Delete User Profile by user-id
-router.delete("/api/v1/user/delete/:id", ApiController.delete);
-//Fetch all user api
-router.get("/api/v1/users/list", ApiController.findAll);
-//Register Standard API 
-router.post('/api/v1/register', celebrate({
-	body: {
-		name: commonValidation.VALIDATION.REGISTER.NAME,
-		email: commonValidation.VALIDATION.REGISTER.EMAIL,
-		phone: commonValidation.VALIDATION.REGISTER.PHONE,
-    	password: commonValidation.VALIDATION.REGISTER.PASSWORD,
-	},
-  }), (req, res) => {
-  	ApiController.create(req, res);
-});
+
+   /**
+    * @Author        : Shubham Gupta
+    * @Last modified : <30-03-2020>
+    * @Project       : <Basic Node JS Application>
+    * @Function      : <Routes Define>
+    * @Description   : <this route will delete user info BY user-id from users table>
+    * @Parameters    : <YES>
+    * @Method        : <DELETE>
+    * @Returns       : <YES>
+    * @Return Type   : <json>
+	* @Swagger       : <YES>
+    */
+
+	/**
+	* @swagger
+	* /user/delete/{id}:
+	*   delete:
+	*     tags:
+	*       - Users
+	*     summary: Delete User by User-Id
+	*     description: Delete a single User by User-id
+	*     produces:
+	*       - application/json
+	*     parameters:
+ 	*       - name: id
+ 	*         description: User's id
+ 	*         in: path
+ 	*         required: true
+ 	*         type: integer
+	*     responses: {
+	*      200: {
+	*         description: "Success",
+	* 			type: String,
+	* 		 },
+	* 		500: {
+	* 			description: "Internal Server Error",
+	* 			type: String,
+	* 		},
+	*      400: {
+	* 			description: "Validation Error",
+	*		 	type: String,
+	*     	},
+	*		401: {
+	*      	description: "Unathorized",
+	* 			type: String,
+	* 		}
+	*  }
+	*/
+	router.delete("/api/v1/user/delete/:id", ApiController.delete);
+
+   /**
+    * @Author        : Shubham Gupta
+    * @Last modified : <30-03-2020>
+    * @Project       : <Basic Node JS Application>
+    * @Function      : <Routes Define>
+    * @Description   : <this route will fetch user info BY user-id from users table>
+    * @Parameters    : <YES>
+    * @Method        : <GET>
+    * @Returns       : <YES>
+    * @Return Type   : <json>
+	* @Swagger       : <YES>
+    */
+
+	/**
+	* @swagger
+	* /user/{id}:
+	*   get:
+	*     tags:
+	*       - Users
+	*     summary: Return User Info by User-Id
+	*     description: Returns a single User
+	*     produces:
+	*       - application/json
+	*     parameters:
+ 	*       - name: id
+ 	*         description: User's id
+ 	*         in: path
+ 	*         required: true
+ 	*         type: integer
+	*     responses: {
+	*      200: {
+	*         description: "Success",
+	* 			type: String,
+	* 		 },
+	* 		500: {
+	* 			description: "Internal Server Error",
+	* 			type: String,
+	* 		},
+	*      400: {
+	* 			description: "Validation Error",
+	*		 	type: String,
+	*     	},
+	*		401: {
+	*      	description: "Unathorized",
+	* 			type: String,
+	* 		}
+	*  }
+	*/
+	router.get("/api/v1/user/:id", ApiController.findOne);
+	
+	 /**
+    * @Author        : Shubham Gupta
+    * @Last modified : <30-03-2020>
+    * @Project       : <Basic Node JS Application>
+    * @Function      : <Routes Define>
+    * @Description   : <this route will fetch all user from users table>
+    * @Parameters    : <YES>
+    * @Method        : <GET>
+    * @Returns       : <YES>
+    * @Return Type   : <json>
+	* @Swagger       : <YES>
+    */
+
+   /**
+	* @swagger
+	* /users/list:
+	*   get:
+	*     tags:
+	*       - Users
+	*     summary: All User List
+	*     description: Returns all Users
+	*     produces:
+	*       - application/json
+	*     responses: {
+	*      200: {
+	*         description: "Success",
+	* 			type: String,
+	* 		 },
+	* 		500: {
+	* 			description: "Internal Server Error",
+	* 			type: String,
+	* 		},
+	*      400: {
+	* 			description: "Validation Error",
+	*		 	type: String,
+	*     	},
+	*		401: {
+	*      	description: "Unathorized",
+	* 			type: String,
+	* 		}
+	*  }
+	*/
+	router.get("/api/v1/users/list", ApiController.findAll);
+
+	/**
+    * @Author        : Shubham Gupta
+    * @Last modified : <30-03-2020>
+    * @Project       : <Basic Node JS Application>
+    * @Function      : <Routes Define>
+    * @Description   : <this route will used for register a user(Register Standard API)>
+    * @Parameters    : <YES>
+    * @Method        : <POST>
+    * @Returns       : <YES>
+    * @Return Type   : <json>
+	* @Swagger       : <YES>
+    */
+	
+	/**
+	* @swagger
+	* /register:
+	*   post:
+	*     tags:
+	*       - Users
+	*     name: Register
+	*     summary: Register in a user
+	*     consumes:
+	*       - application/json
+	*     parameters:
+	*       - name: body
+	*         in: body
+	*         schema:
+	*           type: object
+	*           properties: {
+	*			  phone:{
+	*               type : integer,
+	*             },
+	*             email: {
+	*               type: string,
+	*             },
+	*             name: {
+	*               type: string,
+	*             },
+	*             password: {
+	*               type: string,
+	*               format: password
+	*             }
+	*		  }
+	*         required:
+	*           - mail
+	*           - password
+	*     responses: {
+	*       200: {
+	*         description: "User found and logged in successfully",
+	*		  type: String
+	*		},
+	* 		500: {
+	* 			description: "Internal Server Error",
+	* 			type: String,
+	* 		},
+	*       400: {
+	* 			description: "Validation Error",
+	*		 	type: String,
+	*     	},
+	*		401: {
+	*      	description: "Unathorized",
+	* 			type: String,
+	* 		}
+	*	}
+	*/
+	router.post('/api/v1/register', celebrate({
+		body: {
+			name: commonValidation.VALIDATION.REGISTER.NAME,
+			email: commonValidation.VALIDATION.REGISTER.EMAIL,
+			phone: commonValidation.VALIDATION.REGISTER.PHONE,
+			password: commonValidation.VALIDATION.REGISTER.PASSWORD,
+		},
+	}), (req, res) => {
+		ApiController.create(req, res);
+	});
+
+	/**
+    * @Author        : Shubham Gupta
+    * @Last modified : <31-03-2020>
+    * @Project       : <Basic Node JS Application>
+    * @Function      : <Routes Define>
+    * @Description   : <this route will used for login user(Login Standard API))>
+    * @Parameters    : <YES>
+    * @Method        : <POST>
+    * @Returns       : <YES>
+    * @Return Type   : <json>
+	* @Swagger       : <YES>
+    */
+
+	/**
+	* @swagger
+	* /login:
+	*   post:
+	*     tags:
+	*       - Users
+	*     name: Login
+	*     summary: Logs in a user
+	*     consumes:
+	*       - application/json
+	*     parameters:
+	*       - name: body
+	*         in: body
+	*         schema:
+	*           type: object
+	*           properties:
+	*             email:
+	*               type: string
+	*             password:
+	*               type: string
+	*               format: password
+	*         required:
+	*           - email
+	*           - password
+	*     responses: {
+	*       200: {
+	*         description: "User found and logged in successfully",
+	*		  type: String
+	*		},
+	* 		500: {
+	* 			description: "Internal Server Error",
+	* 			type: String,
+	* 		},
+	*       400: {
+	* 			description: "Validation Error",
+	*		 	type: String,
+	*     	},
+	*		401: {
+	*      	description: "Unathorized",
+	* 			type: String,
+	* 		}
+	*	}
+	*/
 
 //Login Standard API 
-router.post('/api/v1/login', celebrate({
-	body: {
-	    email: commonValidation.VALIDATION.LOGIN.EMAIL,
-    	password: commonValidation.VALIDATION.LOGIN.PASSWORD,
-	},
-  }), (req, res) => {
-  	ApiController.login(req, res);
-});
+	router.post('/api/v1/login', celebrate({
+		body: {
+			email: commonValidation.VALIDATION.LOGIN.EMAIL,
+			password: commonValidation.VALIDATION.LOGIN.PASSWORD,
+		},
+	}), (req, res) => {
+		ApiController.login(req, res);
+	});
 
-//Register Api
+//Register Api ->Old Api process for beginner
 router.post('/api/v1/register', ApiController.register)
 
 //Old Method for Beginner developer for practics only

@@ -3,6 +3,43 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 
+// Swagger Code Start Here
+//Swagger Requirement -> http://localhost:3000/api-docs/
+
+// Swagger and swagger-jsdoc
+const swaggerJSDoc = require('swagger-jsdoc');
+// Swagger UI for express used to serve swagger-ui with output of swagger-jsdoc
+const swaggerUi = require('swagger-ui-express');
+
+// swagger definition
+const swaggerDefinition = {
+  info: {
+    title: 'NodeJS CRUD API Documentation',
+    version: '1.0.0',
+    description: 'http://localhost:3000/swagger.json',
+  },
+  host: `localhost:3000`,
+  basePath: '/api/v1/',
+};
+
+// options for swagger jsdoc 
+const swaggerOptions = {
+  swaggerDefinition: swaggerDefinition, // swagger definition
+  apis: [ './routes/v1/login.js'],
+};
+
+// initialize swaggerJSDoc generator (outputs swagger docs as JSON to variable)
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+// Server swagger at <apiurl>/docs using swagger-ui-express
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// serve swagger
+app.get('/swagger.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+//Swagger Code End Here
+
 //Use for Model sync
 var cors = require('cors');
 var corsOptions = {
