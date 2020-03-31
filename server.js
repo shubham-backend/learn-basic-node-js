@@ -20,6 +20,16 @@ const swaggerDefinition = {
   },
   host: `localhost:3000`,
   basePath: '/api/v1/',
+  "securityDefinitions": {
+    "basicAuth": {
+    "type": "basic",
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ]
 };
 
 // options for swagger jsdoc 

@@ -17,6 +17,9 @@ const { celebrate, Joi, errors, Segments } = require('celebrate');
 var express = require('express');
 var router = express.Router(); //valuable entaintement
 
+//Basic Auth Middleware for API
+var Middlewares = require('../../src/middlewares/auth.js');
+
 //Api Using Sequilize MySql DB WITH NODE AND EXPRESS JS WITHOUT USED TYPE SCRIPT
 //Swagger Reference - https://mherman.org/blog/swagger-and-nodejs/
 //Update profile of user by user-id
@@ -37,6 +40,14 @@ router.put("/api/v1/user/profile/:id", ApiController.update);
 
 	/**
 	* @swagger
+	* securityDefinsecurityDefinitions:
+  	*	basicAuth:
+    *	type: apiKey
+    *	name: basicAuth
+    *	in: header
+    *	description: Requests should pass an basicAuth header.
+	*	security: 
+	*	- basicAuth: []
 	* /user/delete/{id}:
 	*   delete:
 	*     tags:
@@ -70,7 +81,9 @@ router.put("/api/v1/user/profile/:id", ApiController.update);
 	* 		}
 	*  }
 	*/
-	router.delete("/api/v1/user/delete/:id", ApiController.delete);
+	router.delete("/api/v1/user/delete/:id",
+	Middlewares.basicAuth, //Basic Auth verify with username and password Authorize
+	ApiController.delete);
 
    /**
     * @Author        : Shubham Gupta
@@ -87,6 +100,14 @@ router.put("/api/v1/user/profile/:id", ApiController.update);
 
 	/**
 	* @swagger
+	*securityDefinsecurityDefinitions:
+  	*	basicAuth:
+    *	type: apiKey
+    *	name: basicAuth
+    *	in: header
+    *	description: Requests should pass an basicAuth header.
+	*	security: 
+	*	- basicAuth: []
 	* /user/{id}:
 	*   get:
 	*     tags:
@@ -120,7 +141,9 @@ router.put("/api/v1/user/profile/:id", ApiController.update);
 	* 		}
 	*  }
 	*/
-	router.get("/api/v1/user/:id", ApiController.findOne);
+	router.get("/api/v1/user/:id",
+	Middlewares.basicAuth, //Basic Auth verify with username and password Authorize
+	ApiController.findOne);
 	
 	 /**
     * @Author        : Shubham Gupta
@@ -137,6 +160,14 @@ router.put("/api/v1/user/profile/:id", ApiController.update);
 
    /**
 	* @swagger
+	* securityDefinsecurityDefinitions:
+  	*	basicAuth:
+    *	type: apiKey
+    *	name: basicAuth
+    *	in: header
+    *	description: Requests should pass an basicAuth header.
+	*	security: 
+	*	- basicAuth: []
 	* /users/list:
 	*   get:
 	*     tags:
@@ -164,7 +195,9 @@ router.put("/api/v1/user/profile/:id", ApiController.update);
 	* 		}
 	*  }
 	*/
-	router.get("/api/v1/users/list", ApiController.findAll);
+	router.get("/api/v1/users/list",
+	Middlewares.basicAuth, //Basic Auth verify with username and password Authorize
+	ApiController.findAll);
 
 	/**
     * @Author        : Shubham Gupta
@@ -181,6 +214,14 @@ router.put("/api/v1/user/profile/:id", ApiController.update);
 	
 	/**
 	* @swagger
+	* securityDefinsecurityDefinitions:
+  	*	basicAuth:
+    *	type: apiKey
+    *	name: basicAuth
+    *	in: header
+    *	description: Requests should pass an basicAuth header.
+	*	security: 
+	*	- basicAuth: []
 	* /register:
 	*   post:
 	*     tags:
@@ -238,7 +279,9 @@ router.put("/api/v1/user/profile/:id", ApiController.update);
 			phone: commonValidation.VALIDATION.REGISTER.PHONE,
 			password: commonValidation.VALIDATION.REGISTER.PASSWORD,
 		},
-	}), (req, res) => {
+	}),
+	Middlewares.basicAuth, //Basic Auth verify with username and password Authorize
+	(req, res) => {
 		ApiController.create(req, res);
 	});
 

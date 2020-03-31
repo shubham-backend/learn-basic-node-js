@@ -89,7 +89,7 @@ exports.findAll = (req, res) => {
   //User.findAll({ where: condition })
   User.findAll({ where:{} })
 	.then(data => {
-		resMiddleware.sendResponse(res,"User deleted successfully",data);
+		resMiddleware.sendResponse(res,"User list found successfully",data);
 	//res.send(data);
 	})
 	.catch(err => {
