@@ -23,7 +23,9 @@ var Middlewares = require('../../src/middlewares/auth.js');
 //Api Using Sequilize MySql DB WITH NODE AND EXPRESS JS WITHOUT USED TYPE SCRIPT
 //Swagger Reference - https://mherman.org/blog/swagger-and-nodejs/
 //Update profile of user by user-id
-router.put("/api/v1/user/profile/:id", ApiController.update);
+router.put("/api/v1/user/profile/:id",
+Middlewares.basicAuth, //Basic Auth verify with username and password Authorize
+ApiController.update);
 
    /**
     * @Author        : Shubham Gupta
@@ -83,6 +85,7 @@ router.put("/api/v1/user/profile/:id", ApiController.update);
 	*/
 	router.delete("/api/v1/user/delete/:id",
 	Middlewares.basicAuth, //Basic Auth verify with username and password Authorize
+	Middlewares.bearerAuth, //Bearer Auth verify when login time provide token
 	ApiController.delete);
 
    /**
@@ -143,6 +146,7 @@ router.put("/api/v1/user/profile/:id", ApiController.update);
 	*/
 	router.get("/api/v1/user/:id",
 	Middlewares.basicAuth, //Basic Auth verify with username and password Authorize
+	Middlewares.bearerAuth, //Bearer Auth verify when login time provide token
 	ApiController.findOne);
 	
 	 /**
@@ -197,6 +201,7 @@ router.put("/api/v1/user/profile/:id", ApiController.update);
 	*/
 	router.get("/api/v1/users/list",
 	Middlewares.basicAuth, //Basic Auth verify with username and password Authorize
+	Middlewares.bearerAuth, //Bearer Auth verify when login time provide token
 	ApiController.findAll);
 
 	/**
@@ -348,7 +353,9 @@ router.put("/api/v1/user/profile/:id", ApiController.update);
 			email: commonValidation.VALIDATION.LOGIN.EMAIL,
 			password: commonValidation.VALIDATION.LOGIN.PASSWORD,
 		},
-	}), (req, res) => {
+	}),
+	Middlewares.basicAuth, //Basic Auth verify with username and password Authorize
+	(req, res) => {
 		ApiController.login(req, res);
 	});
 

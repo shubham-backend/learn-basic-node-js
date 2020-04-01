@@ -144,9 +144,7 @@ exports.login_rnd = (req, res) => {
 };
 
 // ######################################################Important Notice##########################################################################
-//var userModel = require('../../models/v1/app.model.js');   //Uncomment line when login api hit
-//Important Line - Before the login api hit -> go to app.model,js and uncomment practics1 and comment practics3
-
+var userModel = require('../../models/v1/login.model.js'); 
 //Well Standard API using Controller Model and Routes and Common Validation
 exports.login = function(req, res) {
 	const data = req.body;
@@ -161,6 +159,7 @@ exports.login = function(req, res) {
 	}
 	});
 };
+// ######################################################Important Notice for above code##########################################################
 
 exports.getUsers = (req,res,next) => {
 	connection.query('select * from users', function (error, results, fields) {

@@ -21,13 +21,20 @@ const swaggerDefinition = {
   host: `localhost:3000`,
   basePath: '/api/v1/',
   "securityDefinitions": {
+    JWT:{
+    description: "",
+    type: "apiKey",
+    name: "access-token",
+    in: "header",
+    },
     "basicAuth": {
     "type": "basic",
     }
   },
   "security": [
     {
-      "basicAuth": []
+      "basicAuth": [],
+       JWT: []
     }
   ]
 };

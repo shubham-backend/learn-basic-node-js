@@ -18,4 +18,4 @@ Api link import in postman and enjoy CRUD API in NodeJs, Sequilize Relation and 
 https://www.getpostman.com/collections/c1a2f0c0829957be9fc4 and add header in key-> Authorization and value -> Basic dXNlcjpwYXNz
 
 14) Apply Basic Authentation for Api -> basic-auth (npm install basic-auth)
-
+15) Apply Bearer Auth(JWT Token) -> access-token (npm install jsonwebtoken)
