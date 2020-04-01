@@ -159,6 +159,21 @@ exports.login = function(req, res) {
 	}
 	});
 };
+
+//Logout API
+exports.logout = function(payloadData, sessionData, res) {
+
+	userModel.logout(payloadData,sessionData, function(err, user) {
+		
+	if(err == null && user !==null && user.hasOwnProperty('id'))
+	{
+		resMiddleware.sendResponse(res,"User Logout Successfully.",user);	
+	}
+	else{
+		resMiddleware.sendError(res, user);
+	}
+	});
+};
 // ######################################################Important Notice for above code##########################################################
 
 exports.getUsers = (req,res,next) => {

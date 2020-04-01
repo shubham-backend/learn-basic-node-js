@@ -41,6 +41,7 @@ var db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.users = require("../models/v1/app.model.js")(sequelize, Sequelize);
+db.sessions = require("../models/v1/session.model.js")(sequelize, Sequelize);
 module.exports = db;
 
 //var User = UserModel(sequelize, Sequelize);

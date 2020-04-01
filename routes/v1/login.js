@@ -347,7 +347,7 @@ ApiController.update);
 	*	}
 	*/
 
-//Login Standard API 
+	//Login Standard API 
 	router.post('/api/v1/login', celebrate({
 		body: {
 			email: commonValidation.VALIDATION.LOGIN.EMAIL,
@@ -358,6 +358,62 @@ ApiController.update);
 	(req, res) => {
 		ApiController.login(req, res);
 	});
+
+	/**
+    * @Author        : Shubham Gupta
+    * @Last modified : <01-04-2020>
+    * @Project       : <Basic Node JS Application>
+    * @Function      : <Routes Define>
+    * @Description   : <this route will used for logout user(Logout Standard API))>
+    * @Parameters    : <YES>
+    * @Method        : <POST>
+    * @Returns       : <YES>
+    * @Return Type   : <json>
+	* @Swagger       : <YES>
+    */
+
+	/**
+	* @swagger
+	* /logout:
+	*   put:
+	*     tags:
+	*       - Users
+	*     name: Logout
+	*     summary: Logout of a user
+	*     consumes:
+	*       - application/json
+	*     responses: {
+	*       200: {
+	*         description: "User logged out successfully",
+	*		  type: String
+	*		},
+	* 		500: {
+	* 			description: "Internal Server Error",
+	* 			type: String,
+	* 		},
+	*       400: {
+	* 			description: "Validation Error",
+	*		 	type: String,
+	*     	},
+	*		401: {
+	*      	description: "Unathorized",
+	* 			type: String,
+	* 		}
+	*	}
+	*/
+	//Logout Standard API
+	router.put('/api/v1/logout',
+		celebrate({
+			body: Joi.object().keys({
+				webToken: Joi.string().trim().optional()
+			})
+		}),
+		Middlewares.basicAuth,  //Baisc Auth
+		Middlewares.bearerAuth, //Access-Token
+		async (req, res) => {
+			ApiController.logout(req.body, req.userDetail,res);
+	});
+
 
 //Register Api ->Old Api process for beginner
 router.post('/api/v1/register', ApiController.register)

@@ -19,3 +19,4 @@ https://www.getpostman.com/collections/c1a2f0c0829957be9fc4 and add header in ke
 
 14) Apply Basic Authentation for Api -> basic-auth (npm install basic-auth)
 15) Apply Bearer Auth(JWT Token) -> access-token (npm install jsonwebtoken)
+16) Session manage for login and logout using session table for store jwt token and user info

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 01, 2020 at 10:38 PM
+-- Generation Time: Mar 26, 2020 at 04:47 PM
 -- Server version: 5.7.29-0ubuntu0.16.04.1
 -- PHP Version: 7.2.28-3+ubuntu16.04.1+deb.sury.org+1
 
@@ -94,30 +94,6 @@ INSERT INTO `demos` (`id`, `username`, `birthday`, `createdAt`, `updatedAt`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sessions`
---
-
-CREATE TABLE `sessions` (
-  `id` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `web_token` varchar(255) NOT NULL,
-  `jwt_token` varchar(255) NOT NULL,
-  `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sessions`
---
-
-INSERT INTO `sessions` (`id`, `userId`, `name`, `email`, `web_token`, `jwt_token`, `createdAt`, `updatedAt`) VALUES
-(1, 5, 'Shubham', 'shubham1@yopmail.com', '1234', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImVtYWlsIjoic2h1YmhhbTFAeW9wbWFpbC5jb20iLCJuYW1lIjoiU2h1YmhhbSIsImlhdCI6MTU4NTc1OTk5MSwiZXhwIjoxNzEzNzc1OTk5MX0.koSiUjYGDHVBkUm3p_hiPX0y5yzttvNWMcT8m2jlqPs', '2020-04-01 16:53:11', '2020-04-01 16:53:11');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -127,7 +103,6 @@ CREATE TABLE `users` (
   `email` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `is_login` tinyint(1) DEFAULT '0',
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -136,11 +111,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `phone`, `password`, `is_login`, `createdAt`, `updatedAt`) VALUES
-(1, 'Shubham Kumar', 'shubham@yopmail.com', '8787878790', '1234567', 1, '2020-03-26 12:54:38', '2020-04-01 10:39:25'),
-(2, 'Shubham1', 'shubham1@yopmail.com', '8787989898', '1234567', 0, '2020-03-26 14:07:13', '2020-03-26 11:07:45'),
-(3, 'Shubham3', 'shubham3@yopmail.com', '7787878712', '1234567', 0, '2020-04-01 10:38:21', '2020-04-01 10:38:21'),
-(4, 'Shubham10', 'shubham10@yopmail.com', '7787878712', '1234567', 0, '2020-04-01 17:00:10', '2020-04-01 17:05:53');
+INSERT INTO `users` (`id`, `name`, `email`, `phone`, `password`, `createdAt`, `updatedAt`) VALUES
+(1, 'Shubham Kumar', 'shubham@yopmail.com', '8787878790', '1234567', '2020-03-26 12:54:38', '2020-03-26 11:07:45'),
+(2, 'Shubham1', 'shubham1@yopmail.com', '8787989898', '1234567', '2020-03-26 14:07:13', '2020-03-26 11:07:45'),
+(3, 'Shubham2', 'shubham2@yopmail.com', '8787878799', '1234567', '2020-03-26 09:36:38', '2020-03-26 09:36:38');
 
 --
 -- Indexes for dumped tables
@@ -162,12 +136,6 @@ ALTER TABLE `contact_us`
 -- Indexes for table `demos`
 --
 ALTER TABLE `demos`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `sessions`
---
-ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -196,15 +164,10 @@ ALTER TABLE `contact_us`
 ALTER TABLE `demos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `sessions`
---
-ALTER TABLE `sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
---
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
